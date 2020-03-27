@@ -1,0 +1,27 @@
+import mustache from 'mustache';
+import tag from 'html-tag-js';
+
+import template from './{{__NAME}}.hbs';
+import css from './{{__NAME}}.scss';
+
+function {{__NAME}}(){
+  const html = mustache.render(template, {});
+  const $page = `<div data-id="{{__ID}}" className="page">${html}</div>`;
+
+  const root = window.app || document.body;
+  const $style = tag.get(`style[data-id="{{__ID}}"]`) || tag('style', {
+    textContent: css.toString(),
+    attr:{
+      "data-id": "{{__ID}}"
+    }
+  });
+
+  return {
+    render: ()=>{
+      if(!$style.isConnected) document.head.append($style);
+      root.innerHTML = $page;
+    }
+  };
+}
+
+export default {{__NAME}};

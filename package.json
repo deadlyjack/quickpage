@@ -1,0 +1,42 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "This is template for developing single page applications",
+  "main": "index.js",
+  "author": "Ajit Kumar",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "autoprefixer": "^9.7.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.0",
+    "mini-css-extract-plugin": "^0.8.2",
+    "node-sass": "^4.13.0",
+    "postcss": "^7.0.25",
+    "postcss-loader": "^3.0.0",
+    "raw-loader": "^4.0.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.10"
+  },
+  "scripts": {
+    "config-build": "node ./utils/config.js",
+    "build": "yarn config-build d && webpack",
+    "build-release": "yarn config-build p && webpack",
+    "start": "node ./server/main.js",
+    "new-component": "node ./utils/create.js add c",
+    "new-page": "node ./utils/create.js add p",
+    "remove-component": "node ./utils/create.js remove c",
+    "remove-page": "node ./utils/create.js remove p",
+    "rename-component": "node ./utils/create.js rename c",
+    "rename-page": "node ./utils/create.js rename p"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "html-tag-js": "^0.2.22",
+    "mustache": "^4.0.0",
+    "rmdir": "^1.2.0"
+  }
+}

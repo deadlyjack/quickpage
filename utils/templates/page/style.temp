@@ -1,0 +1,3 @@
+div[data-id="{{__ID}}"]{
+  /*Write style in this block*/
+}

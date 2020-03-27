@@ -1,0 +1,53 @@
+/*{{Component import}}*/
+
+:root {
+  --text-color: #365;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  color: var(--text-color);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  border-bottom: solid 1px var(--text-color);
+
+  nav {
+    padding: 0 10px;
+
+    a {
+      display: inline-flex;
+      text-decoration: none;
+      color: #666;
+      margin-right: 10px;
+      border-radius: 4px;
+      height: 30px;
+      padding: 0 10px;
+      align-items: center;
+
+      &:hover {
+        background-color: rgba($color: #000000, $alpha: 0.2);
+      }
+    }
+  }
+
+  .logo {
+    color: white;
+    background-color: var(--text-color);
+    font-size: 2rem;
+    height: 3rem;
+    padding: .5rem;
+    line-height: 3rem;
+  }
+}
