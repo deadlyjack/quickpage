@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Ajit Kumar",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.16.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
@@ -36,7 +39,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "html-tag-js": "^0.2.22",
-    "mustache": "^4.0.0",
-    "rmdir": "^1.2.0"
+    "mustache": "^4.0.0"
   }
 }

@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 const mustache = require('mustache');
-const rmdir = require('rmdir');
 const args = process.argv.slice(2);
 const [action, arg1, arg2, arg3] = args;
 const SRC_PATH = path.resolve(__dirname, '../src');
@@ -83,7 +82,9 @@ const actions = {
     if (!mode)
       return this.help();
 
-    rmdir(path, err => {
+    fs.rmdir(path, {
+      recursive: true
+    }, err => {
       if (err) {
         console.error(err);
         process.exit(1);
