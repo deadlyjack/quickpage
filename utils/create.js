@@ -23,10 +23,17 @@ const actions = {
       mode = 'p';
       template = TMPLT + '/page/';
       path = SRC_PATH + '/pages/' + name + '/';
+
+      if (!fs.existsSync(SRC_PATH + '/pages/'))
+        fs.mkdirSync(SRC_PATH + '/pages/');
+
     } else if (['c', 'components'].includes(type)) {
       mode = 'c';
       template = TMPLT + '/component/';
       path = SRC_PATH + '/components/' + name + '/';
+
+      if (!fs.existsSync(SRC_PATH + '/components/'))
+        fs.mkdirSync(SRC_PATH + '/components/');
     }
 
     if (!mode)

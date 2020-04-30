@@ -6,7 +6,7 @@ import template from './{{__NAME}}.hbs';
 function {{__NAME}}(){
   const html = mustache.render(template, {});
   const ${{__NAME}} = tag('div', {
-    className: 'page',
+    className: 'coponent',
     innerHTML: html,
     attr: {
       "data-id": "{{__ID}}"
