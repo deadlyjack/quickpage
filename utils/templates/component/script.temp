@@ -1,16 +1,16 @@
+import './{{__NAME}}.scss';
 import mustache from 'mustache';
 import tag from 'html-tag-js';
-
 import template from './{{__NAME}}.hbs';
 
-function {{__NAME}}(){
+function {{__NAME}}() {
   const html = mustache.render(template, {});
   const ${{__NAME}} = tag('div', {
     className: 'coponent',
     innerHTML: html,
     attr: {
-      "data-id": "{{__ID}}"
-    }
+      'data-id': '{{__ID}}',
+    },
   });
 
   return ${{__NAME}};

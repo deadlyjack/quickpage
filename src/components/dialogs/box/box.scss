@@ -1,0 +1,198 @@
+@import '../../../mixins.scss';
+
+.dialog {
+  .mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.4;
+    background-color: black;
+    z-index: 997;
+
+    &.hide {
+      opacity: 0;
+    }
+  }
+
+  .box {
+    position: fixed;
+    width: 90%;
+    height: fit-content;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 0 16px 0 rgba($color: #000000, $alpha: 0.5);
+    background-color: white;
+    margin: auto;
+    color: #282828;
+    right: 0;
+    left: 0;
+    font-size: 1.2rem;
+    z-index: 998;
+
+    &.hide {
+      opacity: 0;
+
+      .mask {
+        opacity: 0;
+        animation: mask-transition-reverse 300ms ease 1;
+      }
+    }
+
+    header {
+      @include flex-row;
+      justify-content: flex-start;
+      height: 40px;
+      padding: 0 16px;
+      box-sizing: border-box;
+
+      .title {
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
+    }
+
+    .body {
+      overflow: auto;
+      max-height: 50vh;
+      padding: 0 16px 16px 16px;
+      box-sizing: border-box;
+
+      .message {
+        overflow: auto;
+        max-height: calc(50vh - 40px - 32px);
+      }
+
+      .button-container {
+        @include flex-row;
+        height: 40px;
+        width: calc(100% + 32px);
+        margin: 0 0 -16px -16px;
+
+        button {
+          flex: 1;
+          @include flex-row;
+          background-color: inherit;
+          color: inherit;
+          border: none;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          box-shadow: none;
+          color: black;
+
+          &:active,
+          &:focus {
+            outline: none;
+            background-color: rgba($color: #000000, $alpha: 0.2);
+          }
+        }
+      }
+    }
+
+    &.top {
+      top: 0;
+      bottom: auto;
+      animation: dialog-transition-top 300ms ease 1;
+
+      &.hide {
+        animation: dialog-transition-top-reverse 300ms ease 1;
+      }
+    }
+
+    &.bottom {
+      bottom: 0;
+      top: auto;
+
+      animation: dialog-transition-bottom 300ms ease 1;
+
+      &.hide {
+        animation: dialog-transition-bottom-reverse 300ms ease 1;
+      }
+    }
+
+    &.center {
+      top: 0;
+      bottom: 0;
+
+      animation: dialog-transition-center 300ms ease 1;
+
+      &.hide {
+        animation: dialog-transition-center-reverse 300ms ease 1;
+      }
+    }
+  }
+}
+
+@keyframes dialog-transition-top {
+  from {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-transition-top-reverse {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-transition-bottom {
+  from {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-transition-bottom-reverse {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-transition-center {
+  from {
+    transform: scale3d(0.5, 0.5, 1);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-transition-center-reverse {
+  from {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale3d(0.5, 0.5, 1);
+    opacity: 0;
+  }
+}

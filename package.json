@@ -14,6 +14,10 @@
     "autoprefixer": "^9.7.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.8.2",
     "node-sass": "^4.13.0",
     "postcss": "^7.0.25",
@@ -21,6 +25,7 @@
     "raw-loader": "^4.0.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.2",
+    "url-loader": "^4.1.1",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11"
   },
@@ -29,6 +34,7 @@
     "build": "yarn config-build d && webpack",
     "build-release": "yarn config-build p && webpack",
     "start": "node ./server/main.js",
+    "start-dev": "node --inspect ./server/main.js",
     "new-component": "node ./utils/create.js add c",
     "new-page": "node ./utils/create.js add p",
     "remove-component": "node ./utils/create.js remove c",
@@ -37,8 +43,11 @@
     "rename-page": "node ./utils/create.js rename p"
   },
   "dependencies": {
+    "autosize": "^4.0.2",
+    "core-js": "^3.11.2",
+    "dotenv": "^8.5.1",
     "express": "^4.17.1",
-    "html-tag-js": "^0.2.22",
+    "html-tag-js": "1.0.1",
     "mustache": "^4.0.0"
   }
 }

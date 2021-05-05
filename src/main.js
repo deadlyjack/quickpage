@@ -1,34 +1,32 @@
+import './main.scss';
+import 'core-js';
+import 'html-tag-js/polyfill';
+import './res/favicon.ico';
 import tag from 'html-tag-js';
 import mustache from 'mustache';
-import css from './main.scss';
 import template from './main.hbs';
 import Router from './lib/Router';
+import alert from './components/dialogs/alert/alert';
+import logo from './res/quickpage-logo.png';
 
 window.onload = main;
 
+/**
+ * Entry point of the app
+ */
 function main() {
   const router = Router();
-  loadApp();
+  const AppName = 'Quickpage';
+  app.innerHTML = mustache.render(template, {
+    'app-name': AppName,
+  });
+  window.app = tag.get('#root');
 
-  router.add('/', () => {
-    root.innerHTML = `<span>Hello World!</span>`;
+  router.add('/:filename(index.html?)?', () => {
+    root.innerHTML = `<img src="${logo}" alt="logo" style="margin:auto" />`;
   });
   router.add('*', () => {
-    // jshint ignore:start
-    alert("Cannot get " + location.pathname);
-    // jshint ignore:end
+    alert(`Cannot get ${window.location.pathname}`);
   });
   router.listen();
-
-  function loadApp() {
-    const AppName = 'Quickpage';
-    app.innerHTML = mustache.render(template, {
-      "app-name": AppName
-    });
-    window.app = tag.get('#root');
-    const $style = tag('style', {
-      textContent: css.toString()
-    });
-    document.head.append($style);
-  }
 }

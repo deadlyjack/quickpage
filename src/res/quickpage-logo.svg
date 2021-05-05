@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 512 512"
+   style="enable-background:new 0 0 512 512;"
+   xml:space="preserve"
+   sodipodi:docname="quickpage-logo.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:export-filename="/mnt/sda1/js-apps/quickpage-site/public/res/quickpage-logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"><metadata
+   id="metadata15"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs13">
+	
+	
+
+		
+			
+		
+	<filter
+   inkscape:menu-tooltip="In and out glow with a possible offset and colorizable flood"
+   inkscape:menu="Shadows and Glows"
+   inkscape:label="Cutout Glow"
+   style="color-interpolation-filters:sRGB;"
+   id="filter867"><feOffset
+     dy="3"
+     dx="3"
+     id="feOffset857" /><feGaussianBlur
+     stdDeviation="3"
+     result="blur"
+     id="feGaussianBlur859" /><feFlood
+     flood-color="rgb(0,0,0)"
+     flood-opacity="1"
+     result="flood"
+     id="feFlood861" /><feComposite
+     in="flood"
+     in2="SourceGraphic"
+     operator="in"
+     result="composite"
+     id="feComposite863" /><feBlend
+     in="blur"
+     in2="composite"
+     mode="normal"
+     id="feBlend865" /></filter></defs><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1022"
+   id="namedview11"
+   showgrid="false"
+   inkscape:zoom="1.84375"
+   inkscape:cx="341.51594"
+   inkscape:cy="250.91267"
+   inkscape:window-x="1080"
+   inkscape:window-y="271"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<style
+   type="text/css"
+   id="style2">
+	.st0{fill:#2A3F29;}
+	.st1{fill:#4877BC;}
+</style>
+<path
+   style="fill:#2a3f29;filter:url(#filter867)"
+   inkscape:connector-curvature="0"
+   d="m 365.7,343.4 c 0,0 -32.3,41.9 -56.5,73.1 -14.5,18.7 -26.1,33.6 -26.3,33.6 -0.1,-0.2 4.5,-13.8 9.9,-29.4 7.2,-21 15.7,-45.4 15.7,-45.4 0,0 0.9,-3 -2.7,-3.4 -3.6,-0.4 -48.4,-0.1 -48.4,-0.1 l 14.8,-19.1 68.3,-88.1 -24.6,71.8 -0.8,2.3 c 0,0 -2.1,4 2.1,4.2 4.1,0.1 48.5,0.5 48.5,0.5 z"
+   class="st0"
+   id="XMLID_10_" /><g
+   id="XMLID_21_"
+   transform="translate(-0.1)">
+			<path
+   id="XMLID_30_"
+   class="st1"
+   d="M 256,61.9 C 155.9,61.9 74.7,143 74.7,243.2 c 0,100.2 81.2,181.2 181.3,181.2 12.6,0 24.9,-1.3 36.8,-3.7 7.2,-21 15.7,-45.4 15.7,-45.4 0,0 0.9,-3 -2.7,-3.4 -3.6,-0.4 -48.4,-0.1 -48.4,-0.1 l 14.8,-19.1 c -5.3,0.8 -10.7,1.2 -16.2,1.2 -61.1,0 -110.7,-49.6 -110.7,-110.7 0,-61.1 49.6,-110.7 110.7,-110.7 61.1,0 110.7,49.6 110.7,110.7 0,39.1 -20.3,73.5 -50.8,93.1 l -0.8,2.3 c 0,0 -2.1,4 2.1,4.2 4.2,0.2 48.6,0.6 48.6,0.6 0,0 -32.3,41.9 -56.5,73.1 C 383.5,393.8 437.4,324.8 437.4,243.2 437.3,143 356.1,61.9 256,61.9 Z"
+   inkscape:connector-curvature="0"
+   style="fill:#4877bc" />
+		</g>
+</svg>

@@ -1,0 +1,33 @@
+@import "../../../mixins.scss";
+
+#prompt-box {
+  max-height: calc(50vh - 40px - 32px - 40px - 20px);
+  overflow: auto;
+
+  .error {
+
+    &:empty {
+      display: none;
+    }
+
+    height: 20px;
+    @include flex-row;
+    color: orangered;
+    font-size: 18px;
+  }
+
+  #prompt-input {
+    width: 100%;
+    border: none;
+    border-bottom: solid 1px currentColor;
+    padding: 5px 0;
+    height: 1.2rem;
+    font-size: 1.2rem;
+    resize: none;
+
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -5,46 +5,66 @@ function Router() {
     onnavigate: () => {},
     /**
      * Adds new route
-     * @param {string} path 
-     * @param {function(Object, Object):void} callback 
+     * @param {string} path
+     * @param {function(Object, Object):void} callback
      */
-    add: function (path, callback) {
+    add(path, callback) {
       routes[path] = callback;
     },
     /**
      * Nvigate to given path
-     * @param {string} pathname 
+     * @param {string} pathname
      */
-    navigate: function (pathname) {
+    navigate(pathname) {
+      const { location } = window;
       pathname = (typeof pathname === 'string' ? pathname : location.pathname);
-      let route = (decodeURI(pathname)).split('/');
+      const route = (decodeURI(pathname)).split('/');
       let query = decodeURI(location.search.substr(1));
       const params = {};
       const queries = {};
       let callback;
 
-      for (let path in routes) {
+      Object.keys(routes).every((path) => {
         let match = false;
 
         if (!path) {
           callback = routes[path];
-          break;
+          return false;
         }
 
-        let navigation = path.split('/');
+        const navigation = path.split('/');
         for (let i = 0; i < navigation.length; ++i) {
           const nav = navigation[i];
+          const routeSeg = route[i];
           if (nav === '*') {
             match = true;
             break;
           } else if (nav[0] === ':') {
-            params[nav.substr(1)] = route[i];
+            const IS_OPTIONAL = nav.substr(-1) === '?';
+            const IS_ALLOWED = IS_OPTIONAL && !routeSeg;
+            const cleanNav = IS_OPTIONAL ? nav.slice(1, -1) : nav.slice(1);
+            const key = cleanNav.replace(/\(.*\)$/, '');
+            const execValue = /\((.+)\)/.exec(cleanNav);
+            if (Array.isArray(execValue)) {
+              const regex = new RegExp(execValue[1]);
+              if (IS_ALLOWED || regex.test(routeSeg)) {
+                match = true;
+              } else {
+                match = false;
+                break;
+              }
+            } else if (IS_ALLOWED || routeSeg) {
+              match = true;
+            } else {
+              match = false;
+              break;
+            }
+            params[key] = routeSeg || '';
+          } else if (nav === routeSeg) {
             match = true;
-            continue;
-          } else if (nav === route[i]) {
+          } else if (new RegExp(nav).test(routeSeg)) {
             match = true;
-            continue;
-          } else if (nav !== route[i]) {
+          } else if (nav !== routeSeg) {
             match = false;
             break;
           }
@@ -52,35 +72,37 @@ function Router() {
 
         if (match) {
           callback = routes[path];
-          break;
+          return false;
         }
-      }
+
+        return true;
+      });
 
       if (callback) {
         if (query) {
           query = query.split('&');
 
-          query.map(get => {
+          query.forEach((get) => {
             get = get.split('=');
-            queries[get[0]] = get[1];
+            [, queries[get[0]]] = get;
           });
         }
 
         callback(params, queries);
       }
     },
-    listen: function () {
+    listen() {
+      const { location, history } = window;
       this.navigate(location.pathname);
       document.addEventListener('locationchange', this.navigate);
       document.body.addEventListener('click', listenForAncher);
       window.addEventListener('popstate', listenPopState);
 
       /**
-       * 
-       * @param {MouseEvent} e 
+       *
+       * @param {MouseEvent} e
        */
       function listenForAncher(e) {
-
         const $el = e.target;
 
         if (!($el instanceof HTMLAnchorElement)) return;
@@ -89,7 +111,7 @@ function Router() {
          * @type {string}
          */
         const href = $el.getAttribute('href');
-        const thisSite = new RegExp(`(^https?:\/\/(www\.)?${location.hostname}(\/\.*)?)|(^\/)`);
+        const thisSite = new RegExp(`(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`);
 
         if (!thisSite.test(href)) return;
 
@@ -108,16 +130,6 @@ function Router() {
         if (this.onnavigate) this.onnavigate(path);
       }
     },
-
-    /**
-     * Load module using webpack lazy loading
-     * @param {string} name
-     */
-    loadModule: function (name, path) {
-      //jshint ignore:start
-      return eval(`import( /* webpackChunkName: "${name}" */ '${path}')`);
-      //jshint ignore:end
-    }
   };
 }
 
