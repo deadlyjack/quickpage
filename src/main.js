@@ -23,7 +23,7 @@ function main() {
   window.app = tag.get('#root');
 
   router.add('/:filename(index.html?)?', () => {
-    root.innerHTML = `<img src="${logo}" alt="logo" style="margin:auto" />`;
+    root.innerHTML = `<img src="${logo}" alt="logo" style="height: 400px; width: 400px" />`;
   });
   router.add('*', () => {
     alert(`Cannot get ${window.location.pathname}`);

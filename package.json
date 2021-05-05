@@ -30,17 +30,17 @@
     "webpack-cli": "3.3.11"
   },
   "scripts": {
-    "config-build": "node ./utils/config.js",
-    "build": "yarn config-build d && webpack",
-    "build-release": "yarn config-build p && webpack",
-    "start": "node ./server/main.js",
-    "start-dev": "node --inspect ./server/main.js",
-    "new-component": "node ./utils/create.js add c",
-    "new-page": "node ./utils/create.js add p",
-    "remove-component": "node ./utils/create.js remove c",
-    "remove-page": "node ./utils/create.js remove p",
-    "rename-component": "node ./utils/create.js rename c",
-    "rename-page": "node ./utils/create.js rename p"
+    "config-build": "node ./tools/config",
+    "build": "yarn config-build d && webpack --progress",
+    "build-release": "yarn config-build p && webpack --progress",
+    "start": "node ./server/main",
+    "start-dev": "node ./tools/dev-server",
+    "new-component": "node ./tools/create.js add c",
+    "new-page": "node ./tools/create.js add p",
+    "remove-component": "node ./tools/create.js remove c",
+    "remove-page": "node ./tools/create.js remove p",
+    "rename-component": "node ./tools/create.js rename c",
+    "rename-page": "node ./tools/create.js rename p"
   },
   "dependencies": {
     "autosize": "^4.0.2",
@@ -48,6 +48,7 @@
     "dotenv": "^8.5.1",
     "express": "^4.17.1",
     "html-tag-js": "1.0.1",
-    "mustache": "^4.0.0"
+    "mustache": "^4.0.0",
+    "open": "^8.0.7"
   }
 }
