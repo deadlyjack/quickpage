@@ -5,11 +5,10 @@ import template from './{{__NAME}}.hbs';
 function {{__NAME}}() {
   const html = mustache.render(template, {});
   const $page = `<div data-id="{{__ID}}" className="page">${html}</div>`;
-
   const root = window.app || document.body;
 
   return {
-    render: () => {
+    render() {
       root.innerHTML = $page;
     },
   };

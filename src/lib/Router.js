@@ -1,8 +1,18 @@
 function Router() {
   const routes = {};
+  const listeners = {
+    navigate: [],
+  };
+  const locationChanged = () => { document.dispatchEvent(new CustomEvent('locationchange')); };
+  let onnavigate;
 
   return {
-    onnavigate: () => {},
+    set onnavigate(listener) {
+      onnavigate = listener;
+    },
+    get onnavigate() {
+      return onnavigate;
+    },
     /**
      * Adds new route
      * @param {string} path
@@ -13,12 +23,16 @@ function Router() {
     },
     /**
      * Nvigate to given path
-     * @param {string} pathname
+     * @param {string} url
      */
-    navigate(pathname) {
+    navigate(url) {
       const { location } = window;
-      pathname = (typeof pathname === 'string' ? pathname : location.pathname);
-      const route = (decodeURI(pathname)).split('/');
+      url = (typeof url === 'string' ? url : location.pathname);
+
+      if (typeof this.onnavigate === 'function') this.onnavigate(url);
+      listeners.navigate.forEach((listener) => listener(url));
+
+      const route = (decodeURI(url)).split('/');
       let query = decodeURI(location.search.substr(1));
       const params = {};
       const queries = {};
@@ -94,9 +108,9 @@ function Router() {
     listen() {
       const { location, history } = window;
       this.navigate(location.pathname);
-      document.addEventListener('locationchange', this.navigate);
+      document.addEventListener('locationchange', () => this.navigate());
       document.body.addEventListener('click', listenForAncher);
-      window.addEventListener('popstate', listenPopState);
+      window.addEventListener('popstate', locationChanged);
 
       /**
        *
@@ -118,17 +132,25 @@ function Router() {
         e.preventDefault();
 
         if (href !== location.pathname) history.pushState(history.state, document.title, href);
-        document.dispatchEvent(new CustomEvent('locationchange'));
-
-        if (this.onnavigate) this.onnavigate(href);
+        locationChanged();
       }
-
-      function listenPopState() {
-        const path = location.pathname;
-        document.dispatchEvent(new CustomEvent('locationchange'));
-
-        if (this.onnavigate) this.onnavigate(path);
-      }
+    },
+    /**
+     *
+     * @param {"navigate"} event
+     * @param {function(url):void} listener
+     */
+    on(event, listener) {
+      listeners[event] = listener;
+    },
+    /**
+     *
+     * @param {"navigate"} event
+     * @param {function(url):void} listener
+     */
+    off(event, listener) {
+      const index = listeners[event].indexOf(listener);
+      listeners[event].splice(index, 1);
     },
   };
 }

@@ -12,7 +12,7 @@ const configProcess = exec('node ./tools/config.js d', processHandler);
 configProcess.on('exit', build);
 
 function build(watch) {
-  const buildProcess = exec(`webpack ${watch ? '--watch' : ''}`, processHandler);
+  const buildProcess = exec(`webpack ${watch ? '--watch' : ''} --mode development`, processHandler);
   if (!watch) buildProcess.on('close', start);
   buildProcess.stdout.on('data', writeStdout);
   buildProcess.stderr.on('data', writeStderr);
