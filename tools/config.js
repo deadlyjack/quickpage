@@ -15,8 +15,6 @@ try {
   babelrc = null;
 }
 
-if (babelrc) babelrc = JSON.parse(babelrc);
-
 if (arg === 'd') {
   wbc = wbc.replace(/mode: '.*'/, "mode: 'development'");
   if (babelrc) babelrc.compact = false;
