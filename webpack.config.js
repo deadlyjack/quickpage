@@ -3,11 +3,15 @@ const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, options) => {
-  clearOutputDir('./public/js/');
-  clearOutputDir('./public/css/');
-  clearOutputDir('./public/res/');
   const { mode } = options;
   const IS_DEVELOPMENT = mode === 'development';
+
+  if (!IS_DEVELOPMENT) {
+    clearOutputDir('./public/js/');
+    clearOutputDir('./public/css/');
+    clearOutputDir('./public/res/');
+  }
+
   const rules = [
     {
       test: /\.(hbs)$/,

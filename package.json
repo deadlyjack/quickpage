@@ -50,5 +50,9 @@
     "html-tag-js": "1.0.1",
     "mustache": "^4.0.0",
     "open": "^8.0.7"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }

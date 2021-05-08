@@ -5,6 +5,7 @@ function Router() {
   };
   const locationChanged = () => { document.dispatchEvent(new CustomEvent('locationchange')); };
   let onnavigate;
+  let lastPath;
 
   return {
     set onnavigate(listener) {
@@ -29,14 +30,12 @@ function Router() {
       const { location } = window;
       url = (typeof url === 'string' ? url : location.pathname);
 
-      if (typeof this.onnavigate === 'function') this.onnavigate(url);
-      listeners.navigate.forEach((listener) => listener(url));
-
       const route = (decodeURI(url)).split('/');
       let query = decodeURI(location.search.substr(1));
       const params = {};
       const queries = {};
       let callback;
+      let matchedPath; // Current rout
 
       Object.keys(routes).every((path) => {
         let match = false;
@@ -47,9 +46,18 @@ function Router() {
         }
 
         const navigation = path.split('/');
-        for (let i = 0; i < navigation.length; ++i) {
+        const navLen = navigation.length;
+        const routLen = route.length;
+        const len = navLen > routLen ? navLen : routLen;
+        for (let i = 0; i < len; ++i) {
           const nav = navigation[i];
           const routeSeg = route[i];
+
+          if (nav === null || nav === undefined) {
+            match = false;
+            break;
+          }
+
           if (nav === '*') {
             match = true;
             break;
@@ -85,12 +93,19 @@ function Router() {
         }
 
         if (match) {
+          matchedPath = path;
           callback = routes[path];
           return false;
         }
 
         return true;
       });
+
+      const changed = lastPath !== matchedPath;
+      lastPath = matchedPath;
+
+      if (typeof this.onnavigate === 'function') this.onnavigate(url, changed);
+      listeners.navigate.forEach((listener) => listener(url, changed));
 
       if (callback) {
         if (query) {
@@ -110,7 +125,9 @@ function Router() {
       this.navigate(location.pathname);
       document.addEventListener('locationchange', () => this.navigate());
       document.body.addEventListener('click', listenForAncher);
-      window.addEventListener('popstate', locationChanged);
+      window.addEventListener('popstate', () => {
+        locationChanged();
+      });
 
       /**
        *
@@ -126,11 +143,8 @@ function Router() {
          */
         const href = $el.getAttribute('href');
         const thisSite = new RegExp(`(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`);
-
         if (!thisSite.test(href)) return;
-
         e.preventDefault();
-
         if (href !== location.pathname) history.pushState(history.state, document.title, href);
         locationChanged();
       }
