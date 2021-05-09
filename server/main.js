@@ -20,16 +20,12 @@ function main() {
     res.sendFile(path.resolve(__dirname, `../public/css/${req.params.filename}`));
   });
 
-  app.get('/res/:filename', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/res/${req.params.filename}`));
-  });
-
-  app.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  app.get('/res/*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, `../public/${req.path}`));
   });
 
   app.get('*', (req, res) => {
-    res.sendStatus(404, 'File not found');
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
   });
 
   app.listen(PORT, () => {

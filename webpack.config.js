@@ -32,7 +32,7 @@ module.exports = (env, options) => {
       ],
     },
     {
-      test: /\.(png|svg|jpg|jpeg|ico|ttf|webp)$/,
+      test: /\.(png|svg|jpg|jpeg|ico|ttf|webp|eot|woff)(\?.*)?$/,
       loader: 'file-loader',
       options: {
         outputPath(url, res, ctx) {

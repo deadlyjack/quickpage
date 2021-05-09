@@ -31,8 +31,8 @@
   },
   "scripts": {
     "config-build": "node ./tools/config",
-    "build": "yarn config-build d && webpack --progress",
-    "build-release": "yarn config-build p && webpack --progress",
+    "build": "yarn config-build d && webpack --progress --mode development",
+    "build-release": "yarn config-build p && webpack --progress --mode production",
     "start": "node ./server/main",
     "start-dev": "node ./tools/dev-server",
     "new-component": "node ./tools/create.js add c",
