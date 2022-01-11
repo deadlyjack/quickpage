@@ -1,6 +1,6 @@
 import './main.scss';
 import 'core-js';
-import 'html-tag-js/polyfill';
+import 'html-tag-js/dist/polyfill';
 import './res/favicon.ico';
 import tag from 'html-tag-js';
 import mustache from 'mustache';

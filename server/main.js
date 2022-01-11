@@ -5,7 +5,7 @@ const express = require('express');
 const { env } = require('process');
 
 const app = express();
-const { PORT } = env;
+const { PORT = 3000 } = env;
 
 main();
 
@@ -13,11 +13,11 @@ function main() {
   app.use(express.json());
 
   app.get('/js/:filename', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/js/${req.params.filename}`));
+    res.sendFile(path.resolve(__dirname, `../public/${req.params.filename}`));
   });
 
   app.get('/:dir(css|style)/:filename', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/css/${req.params.filename}`));
+    res.sendFile(path.resolve(__dirname, `../public/${req.params.filename}`));
   });
 
   app.get('/res/*', (req, res) => {
