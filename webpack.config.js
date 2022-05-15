@@ -4,15 +4,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const PUBLIC = path.resolve(__dirname, 'public');
-const SRC = path.resolve(__dirname, 'src');
 
 module.exports = (env, options) => {
   const { mode } = options;
   const IS_DEVELOPMENT = mode === 'development';
 
-  if (!IS_DEVELOPMENT) {
-    clearOutputDir();
-  }
+  clearOutputDir();
 
   const rules = [
     {
@@ -21,27 +18,18 @@ module.exports = (env, options) => {
     },
     {
       test: /\.(sa|sc|c)ss$/,
-      use: [{
-        loader: MiniCssExtractPlugin.loader,
-      },
-      'css-loader',
-      'postcss-loader',
-      'sass-loader',
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+        },
+        'css-loader',
+        'postcss-loader',
+        'sass-loader',
       ],
     },
     {
       test: /\.(png|svg|jpg|jpeg|ico|ttf|webp|eot|woff)(\?.*)?$/,
-      loader: 'file-loader',
-      options: {
-        outputPath(url, res) {
-          res = path.relative(PUBLIC, res.replace(SRC, PUBLIC));
-          return res.replace(/\\/g, '/');
-        },
-        name: '[name].[ext]',
-        publicPath(...args) {
-          return this.outputPath(...args);
-        },
-      },
+      type: 'asset/resource',
     },
   ];
 
@@ -76,7 +64,8 @@ module.exports = (env, options) => {
       path: PUBLIC,
       filename: '[name].min.js',
       chunkFilename: '[name].chunk.js',
-      publicPath: './',
+      publicPath: '/',
+      assetModuleFilename: '[name][ext]',
     },
     module: {
       rules,
@@ -104,7 +93,7 @@ function externals() {
   const IGNORES = [
     'electron',
   ];
-  return function ignore(context, request, callback) {
+  return function ignore({ request }, callback) {
     if (IGNORES.indexOf(request) >= 0) {
       return callback(null, `require('${request}')`);
     }

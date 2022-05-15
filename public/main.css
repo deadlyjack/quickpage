@@ -44,7 +44,7 @@ header {
       header nav a:hover {
         background-color: rgba(0, 0, 0, 0.2); }
   header .logo {
-    background-image: url(./81bab6d937769efa9c2d.png);
+    background-image: url(/quickpage-logo.png);
     font-size: 2rem;
     height: 3rem;
     padding: 0.5rem;

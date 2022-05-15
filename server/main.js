@@ -12,16 +12,8 @@ main();
 function main() {
   app.use(express.json());
 
-  app.get('/js/:filename', (req, res) => {
+  app.get('/:filename', (req, res) => {
     res.sendFile(path.resolve(__dirname, `../public/${req.params.filename}`));
-  });
-
-  app.get('/:dir(css|style)/:filename', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/${req.params.filename}`));
-  });
-
-  app.get('/res/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/${req.path}`));
   });
 
   app.get('*', (req, res) => {

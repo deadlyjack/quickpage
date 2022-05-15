@@ -31,7 +31,7 @@ function Router() {
       url = (typeof url === 'string' ? url : location.pathname);
 
       const route = (decodeURI(url)).split('/');
-      let query = decodeURI(location.search.substr(1));
+      let query = decodeURI(location.search.substring(1));
       const params = {};
       const queries = {};
       let callback;
@@ -61,8 +61,8 @@ function Router() {
           if (nav === '*') {
             match = true;
             break;
-          } else if (nav[0] === ':') {
-            const IS_OPTIONAL = nav.substr(-1) === '?';
+          } else if (nav.startsWith(':')) {
+            const IS_OPTIONAL = nav.endsWith('?');
             const IS_ALLOWED = IS_OPTIONAL && !routeSeg;
             const cleanNav = IS_OPTIONAL ? nav.slice(1, -1) : nav.slice(1);
             const key = cleanNav.replace(/\(.*\)$/, '');
@@ -121,7 +121,7 @@ function Router() {
       }
     },
     listen() {
-      const { location, history } = window;
+      const { location } = window;
       this.navigate(location.pathname);
       document.addEventListener('locationchange', () => this.navigate());
       document.body.addEventListener('click', listenForAncher);
@@ -137,16 +137,13 @@ function Router() {
         const $el = e.target;
 
         if (!($el instanceof HTMLAnchorElement)) return;
+        e.preventDefault();
 
         /**
          * @type {string}
          */
         const href = $el.getAttribute('href');
-        const thisSite = new RegExp(`(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`);
-        if (!thisSite.test(href)) return;
-        e.preventDefault();
-        if (href !== location.pathname) history.pushState(history.state, document.title, href);
-        locationChanged();
+        Router.loadUrl(href);
       }
     },
     /**
@@ -168,5 +165,21 @@ function Router() {
     },
   };
 }
+
+/**
+ *
+ * @param {string} href
+ */
+Router.loadUrl = (href) => {
+  const { location, history } = window;
+  const thisSite = new RegExp(`(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`);
+  if (!thisSite.test(href)) {
+    window.location.href = href;
+  }
+  if (href !== location.pathname) {
+    history.pushState(history.state, document.title, href);
+    document.dispatchEvent(new CustomEvent('locationchange'));
+  }
+};
 
 export default Router;

@@ -1,6 +1,6 @@
 # Quickpage
 
-Quickpage is github template for creating single page application with front-end routing. See demo at official page <https://quickpage.foxdebug.com>.
+Quickpage is a GitHub template for creating single-page-application with front-end routing. See demo at official page <https://quickpage.foxdebug.com>.
 
 ## Usage
 
@@ -10,19 +10,31 @@ Create github repository using this template.
 
 ### Start server
 
-To start server to preview the application run following bash command
+To start the server run the following bash command
 
 ```bash
 : yarn start
 ```
 
-The server uses nodejs and expressjs for serving files. You can edit server src code in `server` directory.
+To start the dev-server run the following bash command
+
+```bash
+: yarn start-dev
+```
+
+### Build the application
+
+```bash
+: yarn build-release
+```
+
+The server uses 'NodeJs' and 'ExpressJs' for serving files. You can edit the server src code in `server` directory.
 
 ### Add new page and components
 
 #### Adding new page
 
-To add a new page run following bash command in the teminal
+To add a new page run the following bash command in the terminal
 
 ```bash
 : yarn new-page home
@@ -55,13 +67,13 @@ router.add('/home', (params, queries)=>{
 
 #### Adding new component
 
-To add a new component run following bash command in the teminal
+To add a new component run the following bash command in the terminal
 
 ```bash
 : yarn new-component tile
 ```
 
-After add component you can use that component in any other modules by using import statement.
+After adding a component you can use that component in any other modules by using the import statement.
 
 ```js
 
@@ -76,19 +88,19 @@ function home(){
 
 ```
 
-The argument `pageName` and `componentName` shuld be valid javascript identifier. This cli is defined in `utils/create.js` file and uses some pre defined templates to create javascript, css and hbs file. These templates are in `utils/templates` directory.
+The argument `pageName` and `componentName` shuld be valid javascript identifier. This CLI is defined in `utils/create.js` file and uses some pre-defined templates to create javascript, CSS, and HBS files. These templates are in `utils/templates` directory.
 
 ### Remove or rename page and components
 
 #### Remove
 
-To remove previously added page use below command
+To remove the previously added page use the below command
 
 ```bash
 : yarn remove-page home
 ```
 
-To remove previously added component use below command
+To remove previously added component use the below command
 
 ```bash
 : yarn remove-component tile
@@ -96,13 +108,13 @@ To remove previously added component use below command
 
 #### Rename
 
-To rename previously added page use below command
+To rename a previously added page use the below command
 
 ```bash
 : yarn rename-page home about
 ```
 
-To rename previously added component use below command
+To rename a previously added component use the below command
 
 ```bash
 : yarn rename-component tile listItem
