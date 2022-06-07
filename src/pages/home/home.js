@@ -1,15 +1,18 @@
-import './{{__NAME}}.scss';
+import './home.scss';
+import logo from 'res/quickpage-logo.png';
 import tag from 'html-tag-js';
 import mustache from 'mustache';
-import template from './{{__NAME}}.hbs';
+import template from './home.hbs';
 
-function {{__NAME}}() {
-  const html = mustache.render(template, {});
+function home() {
+  const html = mustache.render(template, {
+    logo,
+  });
   const $page = tag('div', {
     className: 'page',
     innerHTML: mustache.render(html, {}),
     attr: {
-      'data-id': '{{__ID}}',
+      'data-id': 'l4y9mqtw',
     },
   });
 
@@ -21,4 +24,4 @@ function {{__NAME}}() {
   };
 }
 
-export default {{__NAME}};
+export default home;

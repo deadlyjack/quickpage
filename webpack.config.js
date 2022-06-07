@@ -47,6 +47,14 @@ module.exports = (env, options) => {
   }
 
   return {
+    resolve: {
+      alias: {
+        res: path.resolve(__dirname, 'src/res'),
+        pages: path.resolve(__dirname, 'src/pages'),
+        lib: path.resolve(__dirname, 'src/lib'),
+        components: path.resolve(__dirname, 'src/components'),
+      },
+    },
     stats: 'minimal',
     watchOptions: {
       ignored: [

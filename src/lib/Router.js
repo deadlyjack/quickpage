@@ -29,6 +29,7 @@ function Router() {
     navigate(url) {
       const { location } = window;
       url = (typeof url === 'string' ? url : location.pathname);
+      url = url.toLowerCase();
 
       const route = (decodeURI(url)).split('/');
       let query = decodeURI(location.search.substring(1));

@@ -20,3 +20,4 @@ interface Router{
 }
 
 declare const app: HTMLDivElement;
+declare const main: HTMLDivElement;

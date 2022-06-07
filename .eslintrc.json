@@ -8,7 +8,7 @@
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": 12,
+        "ecmaVersion": 13,
         "sourceType": "module"
     },
     "rules": {
@@ -17,7 +17,16 @@
         "no-plusplus": "off"
     },
     "globals": {
-        "root": "readonly",
+        "main": "readonly",
         "app": "readonly"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": [
+                    "src"
+                ]
+            }
+        }
     }
 }
