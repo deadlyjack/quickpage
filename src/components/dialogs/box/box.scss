@@ -18,7 +18,7 @@
 
   .box {
     position: fixed;
-    width: 90%;
+    min-width: fit-content;
     height: fit-content;
     max-width: 400px;
     border-radius: 16px;
@@ -30,6 +30,17 @@
     left: 0;
     font-size: 1.2rem;
     z-index: 998;
+
+    table{
+      th{
+        text-align: left;
+        vertical-align: text-top;
+      }
+
+      th,td{
+        padding: 10px;
+      }
+    }
 
     &.hide {
       opacity: 0;
@@ -43,21 +54,64 @@
     header {
       @include flex-row;
       justify-content: flex-start;
-      height: 40px;
+      height: fit-content;
       padding: 0 16px;
       box-sizing: border-box;
 
       .title {
-        font-size: 1.4rem;
-        font-weight: 500;
+        font-size: 1.3rem;
+        font-weight: 600;
       }
     }
 
     .body {
-      overflow: auto;
       max-height: 50vh;
       padding: 0 16px 16px 16px;
       box-sizing: border-box;
+
+      table{
+        --border: solid 1px var(--text-color);
+        width: fit-content;
+        max-width: 100%;
+        border-spacing: 0;
+        color: var(--text-color);
+        margin: 10px;
+    
+        td,th{
+          &:nth-child(2n+1){
+            background-color: rgba($color: #000000, $alpha: 0.1);
+          }
+        }
+
+        tr:not(:last-child){
+          td,th{
+            border-bottom: var(--border);
+          }
+        }
+    
+        tbody>tr{
+          border-radius: 8px;
+        }
+    
+        td{
+          &[data-action], [data-action]{
+            color: #39f;
+            cursor: pointer !important;
+          }
+        }
+    
+        th,
+        td{
+          border-spacing: 0;
+          padding: 10px;
+    
+          .icon{
+            @include flex-center;
+            height: 40px;
+            width: 40px;
+          }
+        }
+      }
 
       .message {
         overflow: auto;

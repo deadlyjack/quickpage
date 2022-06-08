@@ -1,9 +1,9 @@
 <div id="{{id}}" class="dialog">
   <span class="mask"></span>
   <div class="box {{position}}">
-    <header>
-      <span class="title">{{title}}</span>
-    </header>
+    {{#title}}<header>
+      <h1 class="title">{{.}}</h1>
+    </header>{{/title}}
     <div class="body">{{{body}}}</div>
   </div>
 </div>

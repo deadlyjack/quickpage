@@ -11,7 +11,7 @@ import boxHTML from './box.hbs';
  * @param {boolean} cancelable if dialog box is cancelable
  */
 export default function Box(title, body, position, cancelable = true) {
-  position = position || 'top';
+  position = position || (window.innerWidth <= 500 ? 'center' : 'top');
 
   const uuid = (new Date().getTime() + parseInt(Math.random() * (10 ** 10), 16)).toString(36);
   const id = cancelable ? uuid : 'dialogbox';
@@ -35,5 +35,6 @@ export default function Box(title, body, position, cancelable = true) {
     },
     $mask: $box.get(':scope>.mask'),
     $body: $box.get(':scope>.box>.body'),
+    $box: $box.get(':scope>.box'),
   };
 }

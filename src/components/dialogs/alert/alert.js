@@ -6,8 +6,9 @@ import Box from '../box/box';
  * Shows alert box with title and message.
  * @param {String} title
  * @param {String} message
+ * @param {()=>void} [onhide]
  */
-export default function alert(title, message) {
+export default function alert(title, message, onhide) {
   const box = Box(title, mustache.render(alertHTML, {
     message,
   }));
@@ -26,6 +27,9 @@ export default function alert(title, message) {
     const action = $target.getAttribute('action');
     if (!action) return;
 
-    if (action === 'ok') box.hide();
+    if (action === 'ok') {
+      box.hide();
+      if (onhide) onhide();
+    }
   }
 }

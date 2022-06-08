@@ -6,6 +6,10 @@ import './loader.scss';
 
 export default {
   show(title, message, oncancel) {
+    if (!message) {
+      message = title;
+      title = '';
+    }
     this.hide();
     const cancelable = typeof oncancel === 'function';
     const body = mustache.render(loaderHTML, {
