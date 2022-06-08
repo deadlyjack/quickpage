@@ -153,7 +153,7 @@ function Router() {
      * @param {function(url):void} listener
      */
     on(event, listener) {
-      listeners[event] = listener;
+      listeners[event].push(listener);
     },
     /**
      *

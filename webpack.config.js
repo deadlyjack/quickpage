@@ -17,7 +17,15 @@ module.exports = (env, options) => {
       use: ['raw-loader'],
     },
     {
-      test: /\.(sa|sc|c)ss$/,
+      test: /\.module.(sa|sc|c)ss$/,
+      use: [
+        'raw-loader',
+        'postcss-loader',
+        'sass-loader',
+      ],
+    },
+    {
+      test: /(?<!\.module)\.(sa|sc|c)ss$/,
       use: [
         {
           loader: MiniCssExtractPlugin.loader,
