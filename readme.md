@@ -30,92 +30,77 @@ To start the dev-server run the following bash command
 
 The server uses 'NodeJs' and 'ExpressJs' for serving files. You can edit the server src code in `server` directory.
 
-### Add new page and components
+### Routing
 
-#### Adding new page
+Create a router.
 
-To add a new page run the following bash command in the terminal
+```javascript
+import Router from 'lib/Router';
 
-```bash
-: yarn new-page home
+const router = new Router();
 ```
 
-After adding new page you can see a new directory under `pages` directory which contains three files i.e. javascript, html and a hbs file, also you add a route in `src/main.js` for your newly added page.
+Add routes.
 
-```js
-import home from 'pages/home/home';
-
-router.add('/home', (params, queries)=>{
-  home(params, queries).render();
+```javascript
+router.add('/home', (params, queries) => {
+  // render home
 });
-
 ```
 
-Or you can use webpack lazy loading
+Start route.
 
-```js
+```javascript
+router.listen();
+```
 
-router.add('/home', (params, queries)=>{
-  import(/* webpckChunkName: "home" */ 'pages/home/home')
-  .then(module=>{
-    const home = module.default();
-    home(params, queries).render();
-  });
+#### Create saperate routing page
+
+Create a router page
+
+```bash
+touch adminRouter.js
+```
+
+Initialize router page.
+
+```javascript
+// adminRouter.js
+import Router from 'lib/RouterExtension';
+
+const router = new Router('/admin');
+
+// routes
+
+export default router;
+```
+
+Add middle function to filter routes.
+
+```javascript
+router.beforeNavigate((url, next) => {
+  // url -> current url
+  // next -> callback function
+  // call next function to proceed
 });
-
 ```
 
-#### Adding new component
+Add a route.
 
-To add a new component run the following bash command in the terminal
-
-```bash
-: yarn new-component tile
+```javascript
+router.add('home', (params, queries) => {
+  // render '/base-route/home'
+});
 ```
 
-After adding a component you can use that component in any other modules by using the import statement.
+Add router to main router.
 
-```js
+```javascript
+import adminRouter from './adminRouter';
+import Router from 'lib/Router';
 
-import tile from 'components/tile/tile';
+const router = new Router();
 
-function home(){
-  //code
-  list.appendChild(tile);
-  console.log(tile);
-  //code
-}
-
-```
-
-The argument `pageName` and `componentName` shuld be valid javascript identifier. This CLI is defined in `utils/create.js` file and uses some pre-defined templates to create javascript, CSS, and HBS files. These templates are in `utils/templates` directory.
-
-### Remove or rename page and components
-
-#### Remove
-
-To remove the previously added page use the below command
-
-```bash
-: yarn remove-page home
-```
-
-To remove previously added component use the below command
-
-```bash
-: yarn remove-component tile
-```
-
-#### Rename
-
-To rename a previously added page use the below command
-
-```bash
-: yarn rename-page home about
-```
-
-To rename a previously added component use the below command
-
-```bash
-: yarn rename-component tile listItem
+router.use(adminRouter);
+router.listen();
 ```

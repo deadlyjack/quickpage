@@ -1,186 +1,236 @@
-function Router() {
-  const routes = {};
-  const listeners = {
+export default class Router {
+  static #customEvent = new CustomEvent('locationchange');
+  #routes = {};
+  #beforeNavigate = {};
+  #lastPath = '/';
+  #on = {
     navigate: [],
   };
-  const locationChanged = () => { document.dispatchEvent(new CustomEvent('locationchange')); };
-  let onnavigate;
-  let lastPath;
+  onnavigate;
 
-  return {
-    set onnavigate(listener) {
-      onnavigate = listener;
-    },
-    get onnavigate() {
-      return onnavigate;
-    },
-    /**
-     * Adds new route
-     * @param {string} path
-     * @param {function(Object, Object):void} callback
-     */
-    add(path, callback) {
-      routes[path] = callback;
-    },
-    /**
-     * Nvigate to given path
-     * @param {string} url
-     */
-    navigate(url) {
-      const { location } = window;
-      url = (typeof url === 'string' ? url : location.pathname);
-      url = url.toLowerCase();
+  /**
+   * Add route to router
+   * @param {string} path path to listen
+   * @param {NavigationCallback} callback callback to call when path is matched
+   */
+  add(path, callback) {
+    this.#routes[path] = callback;
+  }
 
-      const route = (decodeURI(url)).split('/');
-      let query = decodeURI(location.search.substring(1));
-      const params = {};
-      const queries = {};
-      let callback;
-      let matchedPath; // Current rout
+  /**
+   * Nvigate to given path
+   * @param {string} url
+   */
+  navigate(url) {
+    const { location } = window;
+    url = typeof url === 'string' ? url : location.pathname;
+    url = url.toLowerCase();
+    const allCallbacks = [];
 
-      Object.keys(routes).every((path) => {
-        let match = false;
-
-        if (!path) {
-          callback = routes[path];
-          return false;
+    Object.keys(this.#beforeNavigate).forEach((path) => {
+      if (url.startsWith(path)) {
+        const callbacks = this.#beforeNavigate[path];
+        if (Array.isArray(callbacks)) {
+          allCallbacks.push(...callbacks);
         }
-
-        const navigation = path.split('/');
-        const navLen = navigation.length;
-        const routLen = route.length;
-        const len = navLen > routLen ? navLen : routLen;
-        for (let i = 0; i < len; ++i) {
-          const nav = navigation[i];
-          const routeSeg = route[i];
-
-          if (nav === null || nav === undefined) {
-            match = false;
-            break;
-          }
-
-          if (nav === '*') {
-            match = true;
-            break;
-          } else if (nav.startsWith(':')) {
-            const IS_OPTIONAL = nav.endsWith('?');
-            const IS_ALLOWED = IS_OPTIONAL && !routeSeg;
-            const cleanNav = IS_OPTIONAL ? nav.slice(1, -1) : nav.slice(1);
-            const key = cleanNav.replace(/\(.*\)$/, '');
-            const execValue = /\((.+)\)/.exec(cleanNav);
-            if (Array.isArray(execValue)) {
-              const regex = new RegExp(execValue[1]);
-              if (IS_ALLOWED || regex.test(routeSeg)) {
-                match = true;
-              } else {
-                match = false;
-                break;
-              }
-            } else if (IS_ALLOWED || routeSeg) {
-              match = true;
-            } else {
-              match = false;
-              break;
-            }
-            params[key] = routeSeg || '';
-          } else if (nav === routeSeg) {
-            match = true;
-          } else if (new RegExp(nav).test(routeSeg)) {
-            match = true;
-          } else if (nav !== routeSeg) {
-            match = false;
-            break;
-          }
-        }
-
-        if (match) {
-          matchedPath = path;
-          callback = routes[path];
-          return false;
-        }
-
-        return true;
-      });
-
-      const changed = lastPath !== matchedPath;
-      lastPath = matchedPath;
-
-      if (typeof this.onnavigate === 'function') this.onnavigate(url, changed);
-      listeners.navigate.forEach((listener) => listener(url, changed));
-
-      if (callback) {
-        if (query) {
-          query = query.split('&');
-
-          query.forEach((get) => {
-            get = get.split('=');
-            [, queries[get[0]]] = get;
-          });
-        }
-
-        callback(params, queries);
       }
-    },
-    listen() {
-      const { location } = window;
-      this.navigate(location.pathname);
-      document.addEventListener('locationchange', () => this.navigate());
-      document.body.addEventListener('click', listenForAncher);
-      window.addEventListener('popstate', () => {
-        locationChanged();
-      });
+    });
 
-      /**
-       *
-       * @param {MouseEvent} e
-       */
-      function listenForAncher(e) {
-        const $el = e.target;
+    allCallbacks.push(() => {
+      this.#navigate(url);
+    });
 
-        if (!($el instanceof HTMLAnchorElement)) return;
-        e.preventDefault();
+    Router.#callWithNext(allCallbacks, url);
+  }
 
-        /**
-         * @type {string}
-         */
-        const href = $el.getAttribute('href');
-        Router.loadUrl(href);
+  #navigate(url) {
+    const routes = Object.keys(this.#routes);
+
+    for (let i = 0; i < routes.length; ++i) {
+      const path = routes[i];
+      try {
+        const route = this.#routes[path];
+        const [params, queries] = Router.#execRoute(path, url);
+        const changed = this.#lastPath !== path;
+        this.#lastPath = path;
+        route(params, queries);
+
+        if (typeof this.onnavigate === 'function') {
+          this.onnavigate(url, changed);
+        }
+
+        this.#on.navigate.forEach((listener) => listener(url, changed));
+        break;
+      } catch (error) {
+        // not matched
       }
-    },
+    }
+  }
+
+  /**
+   * Add listener for navigate event
+   */
+  listen() {
+    const { location } = window;
+    this.navigate(location.pathname);
+    document.addEventListener('locationchange', () => this.navigate());
+    document.body.addEventListener('click', Router.#listenForAncher);
+    window.addEventListener('popstate', () => {
+      document.dispatchEvent(Router.#customEvent);
+    });
+  }
+
+  /**
+   * Add event listener
+   * @param {'navigate'} event
+   * @param {function(string):void} callback
+   */
+  on(event, callback) {
+    if (event in this.#on) {
+      this.#on[event].push(callback);
+    }
+  }
+
+  /**
+   * Removes event listener
+   * @param {'navigate'} event
+   * @param {function(string):void} callback
+   */
+  off(event, callback) {
+    if (event in this.#on) {
+      this.#on[event].splice(this.#on[event].indexOf(callback), 1);
+    }
+  }
+
+  /**
+   *
+   * @param {import('./RouterExtension').default} router
+   */
+  use(router) {
+    const { routes, beforeNavigateCallbacks } = router;
+    Object.keys(routes).forEach((path) => {
+      this.add(path, routes[path]);
+    });
+
+    beforeNavigateCallbacks.forEach(({ path, callback }) => {
+      if (!this.#beforeNavigate[path]) this.#beforeNavigate[path] = [];
+      this.#beforeNavigate[path].push(callback);
+    });
+  }
+
+  /**
+   *
+   * @param {Array<any>} callbacks
+   * @param {string} url
+   */
+  static #callWithNext(callbacks, url) {
+    const callback = callbacks.shift();
+    if (callback) {
+      callback(url, next);
+    }
+
+    function next() {
+      Router.#callWithNext(callbacks);
+    }
+  }
+
+  /**
+   * Test if given path matches the given route
+   * @param {string} route route to be tested on
+   * @param {string} path path to test
+   */
+  static #execRoute(route, path) {
+    // if path starts with : then it is a param
+    // if param ends with ? then it is optional
+    // if param pattern is 'param(path1|path2)' then value can be path1 or path2
+    // if param pattern is 'param(path1|path2)?' then value can be path1 or path2 or empty
+    // if route is * then it is a wildcard
+    const queryString = window.location.search.substring(1);
+
+    const params = {};
+    const queries = {};
+    const routeSegments = route.split('/');
+    const pathSegments = path.split('/');
+
+    queryString?.split('&').forEach((get) => {
+      const [key, value] = get.split('=');
+      queries[key] = value;
+    });
+
+    const len = Math.max(routeSegments.length, pathSegments.length);
+
+    for (let i = 0; i < len; ++i) {
+      const routeSegment = routeSegments[i];
+      const pathSegment = pathSegments[i];
+
+      if (routeSegment === undefined) {
+        return null;
+      }
+
+      if (routeSegment === '*') {
+        return [params, queries]; // wildcard
+      }
+
+      if (routeSegment.startsWith(':')) {
+        const IS_OPTIONAL = routeSegment.endsWith('?');
+        const IS_ALLOWED = IS_OPTIONAL && !pathSegment;
+        const cleanRouteSegment = IS_OPTIONAL
+          ? routeSegment.slice(1, -1)
+          : routeSegment.slice(1);
+        const key = cleanRouteSegment.replace(/\(.*\)$/, '');
+        const execValue = /\((.+)\)/.exec(cleanRouteSegment);
+        if (Array.isArray(execValue)) {
+          const regex = new RegExp(execValue[1]);
+          if (IS_ALLOWED || regex.test(pathSegment)) {
+            params[key] = pathSegment;
+          } else {
+            return null;
+          }
+        } else if (IS_ALLOWED || pathSegment) {
+          params[key] = pathSegment;
+        } else {
+          return null;
+        }
+      } else if (routeSegment !== pathSegment) {
+        return null;
+      }
+    }
+    return [params, queries];
+  }
+
+  /**
+   * Listens for click event on anchor tag
+   * @param {MouseEvent} e
+   * @returns
+   */
+  static #listenForAncher(e) {
+    const $el = e.target;
+
+    if (!($el instanceof HTMLAnchorElement)) return;
+    if ($el.target === '_blank') return;
+
+    e.preventDefault();
+
     /**
-     *
-     * @param {"navigate"} event
-     * @param {function(url):void} listener
+     * @type {string}
      */
-    on(event, listener) {
-      listeners[event].push(listener);
-    },
-    /**
-     *
-     * @param {"navigate"} event
-     * @param {function(url):void} listener
-     */
-    off(event, listener) {
-      const index = listeners[event].indexOf(listener);
-      listeners[event].splice(index, 1);
-    },
-  };
+    const href = $el.getAttribute('href');
+    Router.loadUrl(href);
+  }
+
+  static loadUrl(href) {
+    const { location, history } = window;
+    const thisSite = new RegExp(
+      `(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`
+    );
+    if (!thisSite.test(href)) {
+      window.location.href = href;
+    }
+
+    const currentUrl = location.pathname + location.search;
+    if (href !== currentUrl) {
+      history.pushState(history.state, document.title, href);
+      document.dispatchEvent(Router.#customEvent);
+    }
+  }
 }
-
-/**
- *
- * @param {string} href
- */
-Router.loadUrl = (href) => {
-  const { location, history } = window;
-  const thisSite = new RegExp(`(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`);
-  if (!thisSite.test(href)) {
-    window.location.href = href;
-  }
-  if (href !== location.pathname) {
-    history.pushState(history.state, document.title, href);
-    document.dispatchEvent(new CustomEvent('locationchange'));
-  }
-};
-
-export default Router;

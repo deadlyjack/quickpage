@@ -14,11 +14,15 @@
     "rules": {
         "no-use-before-define": "off",
         "no-param-reassign": "off",
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "lines-between-class-members": "off",
+        "operator-linebreak": "off",
+        "comma-dangle": "off"
     },
     "globals": {
         "main": "readonly",
-        "app": "readonly"
+        "app": "readonly",
+        "db": "readonly"
     },
     "settings": {
         "import/resolver": {

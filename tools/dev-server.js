@@ -1,11 +1,13 @@
 /* eslint-disable global-require */
 /* eslint-disable no-console */
-require('dotenv').config();
+// eslint-disable-next-line import/no-extraneous-dependencies
 const open = require('open');
 const { exec } = require('child_process');
 const { env } = require('process');
 
-const { PORT } = env;
+require('dotenv').config();
+
+const { PORT = 3000 } = env;
 const inspect = process.argv.includes('--inspect');
 
 const configProcess = exec('node ./tools/config.js d', processHandler);

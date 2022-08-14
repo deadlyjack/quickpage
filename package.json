@@ -9,26 +9,34 @@
     "node": ">=12.16.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
-    "@babel/preset-env": "^7.16.11",
-    "autoprefixer": "^10.4.4",
-    "babel-loader": "^8.2.4",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
-    "eslint": "^8.12.0",
+    "eslint": "^8.17.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
-    "postcss": "^8.4.12",
-    "postcss-loader": "^6.2.1",
+    "open": "^8.4.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
     "raw-loader": "^4.0.0",
-    "sass-loader": "^12.6.0",
+    "sass-loader": "^13.0.0",
     "style-loader": "^3.3.1",
-    "terser-webpack-plugin": "^5.3.1",
+    "terser-webpack-plugin": "^5.3.3",
     "url-loader": "^4.1.1",
-    "webpack": "5.71.0",
-    "webpack-cli": "4.9.2"
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0"
+  },
+  "dependencies": {
+    "core-js": "^3.22.8",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "html-tag-js": "^1.1.5",
+    "mustache": "^4.0.0"
   },
   "scripts": {
     "config-build": "node ./tools/config",
@@ -42,15 +50,6 @@
     "remove-page": "node ./tools/create.js remove p",
     "rename-component": "node ./tools/create.js rename c",
     "rename-page": "node ./tools/create.js rename p"
-  },
-  "dependencies": {
-    "autosize": "^5.0.1",
-    "core-js": "^3.21.1",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "html-tag-js": "1.0.2",
-    "mustache": "^4.0.0",
-    "open": "^8.4.0"
   },
   "browserslist": [
     "> 1%",
