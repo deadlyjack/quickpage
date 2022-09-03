@@ -7,7 +7,6 @@ const PUBLIC = path.resolve(__dirname, 'public');
 
 module.exports = (env, options) => {
   const { mode } = options;
-  const IS_DEVELOPMENT = mode === 'development';
 
   clearOutputDir();
 
@@ -22,6 +21,19 @@ module.exports = (env, options) => {
         'raw-loader',
         'postcss-loader',
         'sass-loader',
+      ],
+    },
+    {
+      test: /\.m?js$/,
+      exclude: /(node_modules)/,
+      use: [
+        'html-tag-js/jsx/tag-loader.js',
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       ],
     },
     {
@@ -40,19 +52,6 @@ module.exports = (env, options) => {
       type: 'asset/resource',
     },
   ];
-
-  if (!IS_DEVELOPMENT) {
-    rules.push({
-      test: /\.m?js$/,
-      exclude: /(node_modules)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-        },
-      },
-    });
-  }
 
   return {
     resolve: {

@@ -1,21 +1,25 @@
-/// <reference path="../node_modules/@types/ace/"/>
-
-interface Router{
-  add(path: String, callback: ()=>void): void;
-  listen():void;
-  navigate(url: String):void;
+interface Router {
+  add(path: String, callback: () => void): void;
+  listen(): void;
+  navigate(url: String): void;
   /**
    * Add event listener to router.
    * @param event Name of event to add listener to
    * @param listener Callback function
    */
-  on(event: "nagivate", listener: (url:String, changed: Boolean)=>void ): void;
+  on(
+    event: 'nagivate',
+    listener: (url: String, changed: Boolean) => void,
+  ): void;
   /**
    * Remove event listener to router.
    * @param event Name of event to add listener to
    * @param listener Callback function
    */
-  off(event: "nagivate", listener: (url:String, changed: Boolean)=>void): void;
+  off(
+    event: 'nagivate',
+    listener: (url: String, changed: Boolean) => void,
+  ): void;
   onnavigate(url: String): void;
 }
 

@@ -12,7 +12,8 @@ window.onload = () => {
   app.content = mainView({
     appName: 'Quickpage',
     routes: [
-      { href: '/', text: 'home' },
+      { href: '/', text: 'Home' },
+      { href: 'https://github.com/deadlyjack/quickpage', text: 'GitHub' },
     ],
   });
 

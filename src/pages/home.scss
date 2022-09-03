@@ -1,0 +1,29 @@
+#home {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .counter {
+    margin: 20px;
+  }
+
+  button {
+    height: 40px;
+    width: 120px;
+    border: none;
+    color: white;
+    background-color: #39f;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 4px 0 rgba($color: #000000, $alpha: 0.5);
+
+    &:hover {
+      background-color: #28e;
+    }
+
+    &:active {
+      box-shadow: 0 0 4px 0 rgba($color: #000000, $alpha: 0.5);
+    }
+  }
+}

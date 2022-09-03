@@ -9,7 +9,10 @@
     ],
     "parserOptions": {
         "ecmaVersion": 13,
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "rules": {
         "no-use-before-define": "off",
@@ -17,7 +20,16 @@
         "no-plusplus": "off",
         "lines-between-class-members": "off",
         "operator-linebreak": "off",
-        "comma-dangle": "off"
+        "comma-dangle": [
+            2,
+            "always-multiline"
+        ],
+        "no-unused-vars": [
+            "error",
+            {
+                "varsIgnorePattern": "^tag$"
+            }
+        ]
     },
     "globals": {
         "main": "readonly",
