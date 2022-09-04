@@ -3,6 +3,7 @@ import 'core-js';
 
 import './main.scss';
 import './res/favicon.ico';
+import tag from 'html-tag-js';
 import mainView from './main.view';
 import Router from './lib/Router';
 
@@ -16,6 +17,8 @@ window.onload = () => {
       { href: 'https://github.com/deadlyjack/quickpage', text: 'GitHub' },
     ],
   });
+
+  tag.getAll('button');
 
   const main = app.get('main');
 

@@ -2968,10 +2968,10 @@ home-or-tmp@^2.0.0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
 
-html-tag-js@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/html-tag-js/-/html-tag-js-1.1.10.tgz#b720ee86980a223b3ff7a0a6ebaea9ea59af1e2c"
-  integrity sha512-wLqaiMJGuYVB/G61iAif+COjTFHWBVykDZI33ev3uz+foThv4ieYrWFSz+fpAw3ytF31GlfCWaHG2TiKYG3weQ==
+html-tag-js@^1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/html-tag-js/-/html-tag-js-1.1.11.tgz#881fbad22f68d6d2f1b92d98a5913847280cf67b"
+  integrity sha512-nXRcRRUym4MEQ6gUgOPCwXrz/thhSFBVnBItmPRziawXqQxS5kXV/iWgKppLd5O/49YMv7/WkpF3HSXt2K50PA==
 
 http-errors@2.0.0:
   version "2.0.0"
