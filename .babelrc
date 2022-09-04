@@ -11,7 +11,13 @@
   },
   "plugins": [
     "html-tag-js/jsx/jsx-to-tag.js",
-    "html-tag-js/jsx/syntax-parser.js"
+    "html-tag-js/jsx/syntax-parser.js",
+    [
+      "@babel/transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
   ],
-  "compact": false
+  "compact": true
 }
