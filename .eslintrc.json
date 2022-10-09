@@ -1,4 +1,7 @@
 {
+    "plugins": [
+        "react"
+    ],
     "env": {
         "browser": true,
         "es2021": true,
@@ -15,6 +18,8 @@
         }
     },
     "rules": {
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
         "no-use-before-define": "off",
         "no-param-reassign": "off",
         "no-plusplus": "off",

@@ -3,28 +3,24 @@ import 'core-js';
 
 import './main.scss';
 import './res/favicon.ico';
-import tag from 'html-tag-js';
-import mainView from './main.view';
+import View from './main.view';
 import Router from './lib/Router';
 
 window.onload = () => {
   const router = new Router();
 
-  app.content = mainView({
-    appName: 'Quickpage',
-    routes: [
-      { href: '/', text: 'Home' },
-      { href: 'https://github.com/deadlyjack/quickpage', text: 'GitHub' },
-    ],
-  });
+  const routes = [
+    { href: '/', text: 'Home' },
+    { href: 'https://github.com/deadlyjack/quickpage', text: 'GitHub' },
+  ];
 
-  tag.getAll('button');
+  app.content = <View appName="Quickpage" routes={routes} />;
 
   const main = app.get('main');
 
   router.add('/:filename(index.html?)?', async () => {
     const { default: Home } = await import('./pages/home');
-    main.content = Home();
+    main.content = <Home />;
   });
 
   router.add('*', () => {

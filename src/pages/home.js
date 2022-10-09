@@ -1,11 +1,14 @@
 import './home.scss';
 
 function home() {
-  let count = 0;
-  const $span = <strong>{count}</strong>;
+  const count = <>0</>;
+  const onclick = () => { ++count.value };
+
   return <section id='home'>
-    <span className='counter'>Count: {$span} times clicked</span>
-    <button type='button' onclick={() => { $span.textContent = ++count; }}>Click</button>
+    <span className='counter'>
+      Count: <strong>{count}</strong> times clicked
+    </span>
+    <button type='button' onclick={onclick}>Click</button>
   </section>;
 }
 
