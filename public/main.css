@@ -1,16 +1,13 @@
 /*!**************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/main.scss ***!
   \**************************************************************************************************************************************************/
-:root {
-  --text-color: #365;
-}
-
 body,
 html {
   height: 100%;
   width: 100%;
   margin: 0;
-  color: var(--text-color);
+  background-color: var(--primary-color);
+  color: var(--primary-text-color);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -22,16 +19,17 @@ header {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: white;
+  background-color: var(--secondary-color);
+  color: var(--secondary-text-color);
   border-bottom: solid 1px var(--text-color);
 }
 header nav {
   padding: 0 10px;
 }
 header nav a {
+  color: var(--secondary-text-color);
   display: inline-flex;
   text-decoration: none;
-  color: #666;
   margin-right: 10px;
   border-radius: 4px;
   height: 30px;

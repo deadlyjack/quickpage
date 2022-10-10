@@ -10,16 +10,18 @@
   }
 
   button {
+    border-radius: 4px;
     height: 40px;
     width: 120px;
     border: none;
-    color: white;
-    background-color: #39f;
+    background-color: var(--button-color);
+    color: var(--button-text-color);
     text-transform: uppercase;
     box-shadow: 2px 2px 4px 0 rgba($color: #000000, $alpha: 0.5);
 
     &:hover {
-      background-color: #28e;
+      background-color: var(--button-active-color);
+      color: var(--button-active-text-color);
     }
 
     &:active {
