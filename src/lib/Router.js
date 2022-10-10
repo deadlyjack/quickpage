@@ -221,7 +221,7 @@ export default class Router {
   static loadUrl(href) {
     const { location, history } = window;
     const thisSite = new RegExp(
-      `(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`
+      `(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`,
     );
     if (!thisSite.test(href)) {
       window.location.href = href;

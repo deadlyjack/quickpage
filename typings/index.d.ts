@@ -1,3 +1,11 @@
+/// <reference path="../node_modules/html-tag-js/index.d.ts" />
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    [el: string]: HTMLElement;
+  }
+}
+
 interface Router {
   add(path: String, callback: () => void): void;
   listen(): void;

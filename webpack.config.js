@@ -24,16 +24,11 @@ module.exports = (env, options) => {
       ],
     },
     {
-      test: /\.m?js$/,
+      test: /\.jsx?$/,
       exclude: /(node_modules)/,
       use: [
         'html-tag-js/jsx/tag-loader.js',
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
+        'babel-loader',
       ],
     },
     {
