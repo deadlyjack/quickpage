@@ -12,10 +12,6 @@ module.exports = (env, options) => {
 
   const rules = [
     {
-      test: /\.(hbs)$/,
-      use: ['raw-loader'],
-    },
-    {
       test: /\.module.(sa|sc|c)ss$/,
       use: [
         'raw-loader',
@@ -25,11 +21,15 @@ module.exports = (env, options) => {
     },
     {
       test: /\.jsx?$/,
+      type: 'javascript/auto',
       exclude: /(node_modules)/,
       use: [
         'html-tag-js/jsx/tag-loader.js',
         'babel-loader',
       ],
+      resolve: {
+        fullySpecified: false,
+      }
     },
     {
       test: /(?<!\.module)\.(sa|sc|c)ss$/,
@@ -50,12 +50,7 @@ module.exports = (env, options) => {
 
   return {
     resolve: {
-      alias: {
-        res: path.resolve(__dirname, 'src/res'),
-        pages: path.resolve(__dirname, 'src/pages'),
-        lib: path.resolve(__dirname, 'src/lib'),
-        components: path.resolve(__dirname, 'src/components'),
-      },
+      modules: ["node_modules", "src"],
     },
     stats: 'minimal',
     watchOptions: {

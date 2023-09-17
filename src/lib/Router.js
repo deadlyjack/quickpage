@@ -18,7 +18,7 @@ export default class Router {
   }
 
   /**
-   * Nvigate to given path
+   * Navigate to given path
    * @param {string} url
    */
   navigate(url) {
@@ -74,7 +74,7 @@ export default class Router {
     const { location } = window;
     this.navigate(location.pathname);
     document.addEventListener('locationchange', () => this.navigate());
-    document.body.addEventListener('click', Router.#listenForAncher);
+    document.body.addEventListener('click', Router.#listenForAnchor);
     window.addEventListener('popstate', () => {
       document.dispatchEvent(Router.#customEvent);
     });
@@ -203,7 +203,7 @@ export default class Router {
    * @param {MouseEvent} e
    * @returns
    */
-  static #listenForAncher(e) {
+  static #listenForAnchor(e) {
     const $el = e.target;
 
     if (!($el instanceof HTMLAnchorElement)) return;

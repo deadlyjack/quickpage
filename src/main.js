@@ -2,11 +2,11 @@ import 'html-tag-js/dist/polyfill';
 import 'core-js';
 
 import './main.scss';
-import './res/favicon.ico';
+import 'res/favicon.ico';
 import View from './main.view';
-import Router from './lib/Router';
-import Theme from './lib/theme';
-import dark from './themes/dark';
+import Router from 'lib/Router';
+import Theme from 'lib/theme';
+import dark from 'themes/dark';
 
 window.onload = () => {
   const theme = Theme(dark);
@@ -22,7 +22,7 @@ window.onload = () => {
   const main = app.get('main');
 
   router.add('/:filename(index.html?)?', async () => {
-    const { default: Home } = await import('./pages/home');
+    const { default: Home } = await import('pages/home');
     main.content = <Home />;
   });
 

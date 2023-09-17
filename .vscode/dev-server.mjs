@@ -1,16 +1,16 @@
 /* eslint-disable global-require */
 /* eslint-disable no-console */
 // eslint-disable-next-line import/no-extraneous-dependencies
-const open = require('open');
-const { exec } = require('child_process');
-const { env } = require('process');
+import open from 'open';
+import { exec } from 'child_process';
+import { env } from 'process';
+import { config } from 'dotenv';
 
-require('dotenv').config();
-
+config();
 const { PORT = 3000 } = env;
 const inspect = process.argv.includes('--inspect');
 
-const configProcess = exec('node ./tools/config.js d', processHandler);
+const configProcess = exec('node .vscode/config.mjs d', processHandler);
 configProcess.on('exit', build);
 
 function build(watch) {

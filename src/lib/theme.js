@@ -1,5 +1,3 @@
-import tag from 'html-tag-js';
-
 class Theme {
   #scheme;
   #$style;

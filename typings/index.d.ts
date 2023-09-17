@@ -16,7 +16,7 @@ interface Router {
    * @param listener Callback function
    */
   on(
-    event: 'nagivate',
+    event: 'navigate',
     listener: (url: String, changed: Boolean) => void,
   ): void;
   /**
@@ -25,7 +25,7 @@ interface Router {
    * @param listener Callback function
    */
   off(
-    event: 'nagivate',
+    event: 'navigate',
     listener: (url: String, changed: Boolean) => void,
   ): void;
   onnavigate(url: String): void;
