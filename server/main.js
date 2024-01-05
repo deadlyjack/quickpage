@@ -1,18 +1,11 @@
 /* eslint-disable no-console */
 require('dotenv').config();
 const path = require('path');
-const fs = require('fs');
-const mustach = require('mustache');
 const express = require('express');
 const { env } = require('process');
 
 const app = express();
 const { PORT = 3000 } = env;
-
-const template = fs.readFileSync(
-  path.resolve(__dirname, 'views/index.hbs'),
-  'utf8',
-);
 
 main();
 
@@ -24,9 +17,7 @@ function main() {
   });
 
   app.get('*', (req, res) => {
-    res.send(
-      mustach.render(template, {}),
-    );
+    res.sendFile(path.resolve(__dirname, './index.html'));
   });
 
   app.listen(PORT, () => {

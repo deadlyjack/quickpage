@@ -3,7 +3,7 @@ import 'core-js';
 
 import './main.scss';
 import 'res/favicon.ico';
-import View from './main.view';
+import View from './view';
 import Router from 'lib/Router';
 import Theme from 'lib/theme';
 import dark from 'themes/dark';

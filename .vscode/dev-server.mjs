@@ -9,13 +9,13 @@ import { config } from 'dotenv';
 config();
 const { PORT = 3000 } = env;
 const inspect = process.argv.includes('--inspect');
+let serverStarted = false;
 
 const configProcess = exec('node .vscode/config.mjs d', processHandler);
 configProcess.on('exit', build);
 
-function build(watch) {
-  const buildProcess = exec(`webpack ${watch ? '--watch' : ''} --mode development`, processHandler);
-  if (!watch) buildProcess.on('close', start);
+function build() {
+  const buildProcess = exec(`webpack --watch --mode development`, processHandler);
   buildProcess.stdout.on('data', writeStdout);
   buildProcess.stderr.on('data', writeStderr);
 }
@@ -25,7 +25,6 @@ function start() {
   nodemonProcess.stdout.on('data', writeStdout);
   nodemonProcess.stderr.on('data', writeStderr);
   open(`http://localhost:${PORT}`);
-  build(true);
 }
 
 function processHandler(err) {
@@ -34,6 +33,9 @@ function processHandler(err) {
 
 function writeStdout(data) {
   console.log(data.trim());
+  if (!serverStarted && /webpack \d+\.\d+\.\d+ compiled .*successfully.*/.test(data)) {
+    start();
+  }
 }
 
 function writeStderr(data) {
