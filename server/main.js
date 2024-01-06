@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const { env } = require('process');
+const { existsSync } = require('fs');
 
 const app = express();
 const { PORT = 3000 } = env;
@@ -12,8 +13,13 @@ main();
 function main() {
   app.use(express.json());
 
-  app.get('/:filename', (req, res) => {
-    res.sendFile(path.resolve(__dirname, `../public/${req.params.filename}`));
+  app.get('/:filename', (req, res, next) => {
+    const file = path.resolve(__dirname, `../public/${req.params.filename}`);
+    if (existsSync(file)) {
+      res.sendFile(file);
+      return;
+    }
+    next();
   });
 
   app.get('*', (req, res) => {
