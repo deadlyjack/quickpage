@@ -34,6 +34,7 @@ function processHandler(err) {
 function writeStdout(data) {
   console.log(data.trim());
   if (!serverStarted && /webpack \d+\.\d+\.\d+ compiled .*successfully.*/.test(data)) {
+    serverStarted = true;
     start();
   }
 }
