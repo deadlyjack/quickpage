@@ -2,7 +2,6 @@
 import express from 'express';
 import { env } from 'process';
 import { resolve } from 'path';
-import { json } from 'express';
 import { config } from 'dotenv';
 import { existsSync } from 'fs';
 
@@ -11,10 +10,10 @@ const app = express();
 const { PORT = 3000 } = env;
 const currentDir = process.cwd();
 
-app.use(json());
+app.use(express.json());
 
 app.get('/:filename', (req, res, next) => {
-  const file = resolve(currentDir, `public/${req.params.filename}`);
+  const file = resolve(currentDir, `dist/app/${req.params.filename}`);
   if (existsSync(file)) {
     res.sendFile(file);
     return;
@@ -23,7 +22,7 @@ app.get('/:filename', (req, res, next) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(resolve(currentDir, 'public/index.html'));
+  res.sendFile(resolve(currentDir, 'dist/app/index.html'));
 });
 
 app.listen(PORT, () => {
