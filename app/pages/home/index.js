@@ -1,8 +1,8 @@
-import './home.scss';
+import './style.scss';
 
 function home() {
   const count = <>0</>;
-  const onclick = () => { ++count.value };
+  const onclick = () => { ++count.value; };
 
   return <section id='home'>
     <span className='counter'>

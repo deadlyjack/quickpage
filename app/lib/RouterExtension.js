@@ -13,7 +13,7 @@ export default class RouterExtension {
    */
   add(path, callback) {
     path = this.#base + (path.startsWith('/') ? path : `/${path}`);
-    // remove dublette slashes
+    // remove duplicate slashes
     path = path.replace(/\/+/g, '/');
     this.#routes[path] = callback;
   }

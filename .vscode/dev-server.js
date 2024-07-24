@@ -11,7 +11,7 @@ const { PORT = 3000 } = env;
 const inspect = process.argv.includes('--inspect');
 let serverStarted = false;
 
-const configProcess = exec('node .vscode/config.mjs d', processHandler);
+const configProcess = exec('node .vscode/config.js d', processHandler);
 configProcess.on('exit', build);
 
 function build() {

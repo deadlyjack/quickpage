@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
-module.exports = {
+
+import autoprefixer from 'autoprefixer'
+
+export default {
   plugins: [
-    require('autoprefixer')({}),
-  ],
-};
+    autoprefixer({}),
+  ]
+}

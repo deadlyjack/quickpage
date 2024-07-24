@@ -1,12 +1,36 @@
-export default class Router {
-  static #customEvent = new CustomEvent('locationchange');
+class Router {
+  #customEvent = new CustomEvent('locationchange');
   #routes = {};
   #beforeNavigate = {};
   #lastPath = '/';
   #on = {
     navigate: [],
   };
-  onnavigate;
+  #allCallbacks = [];
+  #currentUrl = '';
+  /**
+   * Add listener for navigate event, called when navigation is done
+   * @type {() => void}
+   */
+  onnavigate = null;
+
+  constructor() {
+    this.reload = this.reload.bind(this);
+    this.navigate = this.navigate.bind(this);
+    this.add = this.add.bind(this);
+    this.listen = this.listen.bind(this);
+    this.on = this.on.bind(this);
+    this.off = this.off.bind(this);
+    this.use = this.use.bind(this);
+    this.loadUrl = this.loadUrl.bind(this);
+  }
+
+  /**
+   * @typedef {(
+   * params: Map<string, string>,
+   * queries: Map<string, string>
+   * ) => void} NavigationCallback
+   */
 
   /**
    * Add route to router
@@ -18,14 +42,16 @@ export default class Router {
   }
 
   /**
-   * Navigate to given path
-   * @param {string} url
+   * Navigates to the specified URL or the current location pathname.
+   * @param {string} url - The URL to navigate to.
+   * If not provided, the current location pathname will be used.
    */
   navigate(url) {
     const { location } = window;
     url = typeof url === 'string' ? url : location.pathname;
     url = url.toLowerCase();
     const allCallbacks = [];
+    this.#currentUrl = url;
 
     Object.keys(this.#beforeNavigate).forEach((path) => {
       if (url.startsWith(path)) {
@@ -36,14 +62,20 @@ export default class Router {
       }
     });
 
-    allCallbacks.push(() => {
-      this.#navigate(url);
+    allCallbacks.push((currUrl, next, forceParams) => {
+      this.#navigate(currUrl, forceParams);
     });
 
+    this.#allCallbacks = [...allCallbacks];
     Router.#callWithNext(allCallbacks, url);
   }
 
-  #navigate(url) {
+  /**
+   * Load url, this method calls the added callbacks
+   * @param {string} url
+   * @param {Map<string, string>} forceParams
+   */
+  #navigate(url, forceParams) {
     const routes = Object.keys(this.#routes);
 
     for (let i = 0; i < routes.length; ++i) {
@@ -53,7 +85,7 @@ export default class Router {
         const [params, queries] = Router.#execRoute(path, url);
         const changed = this.#lastPath !== path;
         this.#lastPath = path;
-        route(params, queries);
+        route(forceParams ?? params, queries);
 
         if (typeof this.onnavigate === 'function') {
           this.onnavigate(url, changed);
@@ -74,9 +106,9 @@ export default class Router {
     const { location } = window;
     this.navigate(location.pathname);
     document.addEventListener('locationchange', () => this.navigate());
-    document.body.addEventListener('click', Router.#listenForAnchor);
+    document.body.addEventListener('click', this.#listenForAnchor.bind(this));
     window.addEventListener('popstate', () => {
-      document.dispatchEvent(Router.#customEvent);
+      document.dispatchEvent(this.#customEvent);
     });
   }
 
@@ -119,18 +151,19 @@ export default class Router {
   }
 
   /**
-   *
+   * Recursively call callbacks when one of them calls next
    * @param {Array<any>} callbacks
    * @param {string} url
+   * @param {Map<string, string>} forceParams
    */
-  static #callWithNext(callbacks, url) {
+  static #callWithNext(callbacks, url, forceParams) {
     const callback = callbacks.shift();
     if (callback) {
-      callback(url, next);
+      callback(url, next, forceParams);
     }
 
     function next() {
-      Router.#callWithNext(callbacks);
+      this.#callWithNext(callbacks, url, forceParams);
     }
   }
 
@@ -154,7 +187,7 @@ export default class Router {
 
     queryString?.split('&').forEach((get) => {
       const [key, value] = get.split('=');
-      queries[key] = value;
+      queries[decodeURIComponent(key)] = decodeURIComponent(value);
     });
 
     const len = Math.max(routeSegments.length, pathSegments.length);
@@ -203,7 +236,7 @@ export default class Router {
    * @param {MouseEvent} e
    * @returns
    */
-  static #listenForAnchor(e) {
+  #listenForAnchor(e) {
     const $el = e.target;
 
     if (!($el instanceof HTMLAnchorElement)) return;
@@ -215,10 +248,24 @@ export default class Router {
      * @type {string}
      */
     const href = $el.getAttribute('href');
-    Router.loadUrl(href);
+    this.loadUrl(href);
   }
 
-  static loadUrl(href) {
+  /**
+   * Loads the specified URL and updates the browser's history.
+   * If the URL has a protocol of 'mailto', 'tel', or 'sms', it will be opened directly.
+   * If the URL is not from the same site, it will be opened in a new window.
+   * If the URL is different from the current URL,
+   * it will update the browser's history and dispatch a custom event.
+   * @param {string} href - The URL to load.
+   */
+  loadUrl(href) {
+    const [protocol] = href.split(':');
+    if (['mailto', 'tel', 'sms'].includes(protocol)) {
+      window.location.href = href;
+      return;
+    }
+
     const { location, history } = window;
     const thisSite = new RegExp(
       `(^https?://(www.)?${location.hostname}(/.*)?)|(^/)`,
@@ -230,7 +277,23 @@ export default class Router {
     const currentUrl = location.pathname + location.search;
     if (href !== currentUrl) {
       history.pushState(history.state, document.title, href);
-      document.dispatchEvent(Router.#customEvent);
+      document.dispatchEvent(this.#customEvent);
     }
   }
+
+  /**
+   * Reload current page
+   * @param {Map<string, string>} [forceParams] params to force
+   */
+  reload(forceParams = null) {
+    const callbacks = [...this.#allCallbacks];
+    Router.#callWithNext(callbacks, this.#currentUrl, forceParams);
+  }
+
+  static setUrl(path) {
+    const { history } = window;
+    history.pushState(history.state, document.title, path);
+  }
 }
+
+export default new Router();

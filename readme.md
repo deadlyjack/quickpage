@@ -1,6 +1,6 @@
 # Quickpage
 
-Quickpage is a GitHub template for creating single-page-application with front-end routing. See demo at official page <https://quickpage.foxdebug.com>.
+Quickpage is a GitHub template for creating single-page-application with front-end routing and JSX. See demo at official page <https://quickpage.foxdebug.com>.
 
 ## Usage
 
@@ -32,18 +32,14 @@ The server uses 'NodeJs' and 'ExpressJs' for serving files. You can edit the ser
 
 ### Routing
 
-Create a router.
-
 ```javascript
 import Router from 'lib/Router';
-
-const router = new Router();
 ```
 
 Add routes.
 
 ```javascript
-router.add('/home', (params, queries) => {
+Router.add('/home', (params, queries) => {
   // render home
 });
 ```
@@ -51,10 +47,10 @@ router.add('/home', (params, queries) => {
 Start route.
 
 ```javascript
-router.listen();
+Router.listen();
 ```
 
-#### Create saperate routing page
+#### Create separate routing page
 
 Create a router page
 
@@ -78,7 +74,7 @@ export default router;
 Add middle function to filter routes.
 
 ```javascript
-router.beforeNavigate((url, next) => {
+Router.beforeNavigate((url, next) => {
   // url -> current url
   // next -> callback function
   // call next function to proceed
@@ -88,19 +84,17 @@ router.beforeNavigate((url, next) => {
 Add a route.
 
 ```javascript
-router.add('home', (params, queries) => {
+Router.add('home', (params, queries) => {
   // render '/base-route/home'
 });
 ```
 
-Add router to main router.
+Add router to main Router.
 
 ```javascript
 import adminRouter from './adminRouter';
 import Router from 'lib/Router';
 
-const router = new Router();
-
-router.use(adminRouter);
-router.listen();
+Router.use(adminRouter);
+Router.listen();
 ```

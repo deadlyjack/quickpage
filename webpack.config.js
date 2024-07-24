@@ -1,11 +1,11 @@
-const path = require('path');
-const fs = require('fs');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+import { resolve, join } from 'path';
+import { readdirSync, statSync, rmdirSync, unlinkSync } from 'fs';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
-const PUBLIC = path.resolve(__dirname, 'public');
+const PUBLIC = resolve(process.cwd(), 'public');
 
-module.exports = (env, options) => {
+export default (env, options) => {
   const { mode } = options;
 
   clearOutputDir();
@@ -50,7 +50,7 @@ module.exports = (env, options) => {
 
   return {
     resolve: {
-      modules: ["node_modules", "src"],
+      modules: ["node_modules", "app"],
     },
     stats: 'minimal',
     watchOptions: {
@@ -63,7 +63,7 @@ module.exports = (env, options) => {
     },
     mode,
     entry: {
-      main: './src/main.js',
+      main: './app/main.js',
     },
     output: {
       path: PUBLIC,
@@ -107,14 +107,14 @@ function externals() {
 }
 
 function clearOutputDir() {
-  const files = fs.readdirSync(PUBLIC);
+  const files = readdirSync(PUBLIC);
   files.forEach((file) => {
     if (file !== 'index.html') {
-      const entry = path.join(PUBLIC, file);
-      if (fs.statSync(entry).isDirectory()) {
-        fs.rmdirSync(entry, { recursive: true });
+      const entry = join(PUBLIC, file);
+      if (statSync(entry).isDirectory()) {
+        rmdirSync(entry, { recursive: true });
       } else {
-        fs.unlinkSync(entry);
+        unlinkSync(entry);
       }
     }
   });

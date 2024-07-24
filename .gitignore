@@ -1,3 +1,5 @@
 node_modules
-.env
 public
+!public/index.html
+.env
+.DS_Store

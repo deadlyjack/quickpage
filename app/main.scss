@@ -3,8 +3,8 @@ html {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-color: var(--primary-color);
-  color: var(--primary-text-color);
+  background-color: var(--primary);
+  color: var(--primary-text);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -15,15 +15,15 @@ header {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: var(--secondary-color);
-  color: var(--secondary-text-color);
-  border-bottom: solid 1px var(--text-color);
+  background-color: var(--secondary);
+  color: var(--secondary-text);
+  border-bottom: var(--border);
 
   nav {
     padding: 0 10px;
 
     a {
-      color: var(--secondary-text-color);
+      color: var(--secondary-text);
       display: inline-flex;
       text-decoration: none;
       margin-right: 10px;

@@ -1,6 +1,6 @@
 {
     "plugins": [
-        "react"
+        "jsx"
     ],
     "env": {
         "browser": true,
@@ -18,8 +18,8 @@
         }
     },
     "rules": {
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
+        "jsx/mark-used-vars": "error",
+        "jsx/no-undef": "error",
         "no-use-before-define": "off",
         "no-param-reassign": "off",
         "no-plusplus": "off",
@@ -33,13 +33,15 @@
     "globals": {
         "main": "readonly",
         "app": "readonly",
-        "db": "readonly"
+        "db": "readonly",
+        "tag": "readonly"
     },
     "settings": {
         "import/resolver": {
+            "typescript": {},
             "node": {
                 "paths": [
-                    "src"
+                    "app"
                 ]
             }
         }

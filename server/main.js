@@ -1,17 +1,20 @@
 /* eslint-disable no-console */
-require('dotenv').config();
-const path = require('path');
-const express = require('express');
-const { env } = require('process');
-const { existsSync } = require('fs');
+import express from 'express';
+import { env } from 'process';
+import { resolve } from 'path';
+import { json } from 'express';
+import { config } from 'dotenv';
+import { existsSync } from 'fs';
 
+config();
 const app = express();
 const { PORT = 3000 } = env;
+const currentDir = process.cwd();
 
-app.use(express.json());
+app.use(json());
 
 app.get('/:filename', (req, res, next) => {
-  const file = path.resolve(__dirname, `../public/${req.params.filename}`);
+  const file = resolve(currentDir, `public/${req.params.filename}`);
   if (existsSync(file)) {
     res.sendFile(file);
     return;
@@ -20,7 +23,7 @@ app.get('/:filename', (req, res, next) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './index.html'));
+  res.sendFile(resolve(currentDir, 'public/index.html'));
 });
 
 app.listen(PORT, () => {

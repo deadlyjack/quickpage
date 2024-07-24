@@ -14,18 +14,18 @@
     height: 40px;
     width: 120px;
     border: none;
-    background-color: var(--button-color);
-    color: var(--button-text-color);
+    background: var(--button-background);
+    color: var(--button-text);
     text-transform: uppercase;
     box-shadow: 2px 2px 4px 0 rgba($color: #000000, $alpha: 0.5);
 
     &:hover {
-      background-color: var(--button-active-color);
-      color: var(--button-active-text-color);
+      background: var(--button-hover);
     }
 
     &:active {
-      box-shadow: 0 0 4px 0 rgba($color: #000000, $alpha: 0.5);
+      transition: all 100ms ease;
+      transform: scale(0.9);
     }
   }
 }
